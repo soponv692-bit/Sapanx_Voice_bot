@@ -1,10 +1,10 @@
 import os
-import asyncio
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 import edge_tts
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
-# আপনার বটের টোকেন
 BOT_TOKEN = "8942545300:AAG8jBxWOYK_NEK9z8oCJTUAhklZPGp0el"
 
 user_voices = {}
@@ -13,6 +13,20 @@ VOICES = {
     "female": "bn-BD-NabanitaNeural",
     "male_bd": "bn-BD-PradeepNeural"
 }
+
+# Render Server Port Handling
+class HealthServer(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running!")
+
+def run_health_server():
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthServer)
+    server.serve_forever()
+
+threading.Thread(target=run_health_server, daemon=True).start()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [[
@@ -71,4 +85,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-  
