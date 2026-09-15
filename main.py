@@ -5,8 +5,7 @@ import edge_tts
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
-BOT_TOKEN = "8942545300:AAFoQnIkoC4A982dIpTGrXfwgaBw9UsKviU
-"
+BOT_TOKEN = "8942545300:AAFoQnIkoC4A982dIpTGrXfwgaBw9UsKviU"
 
 user_voices = {}
 
